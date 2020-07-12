@@ -1,0 +1,41 @@
+#!/usr/bin/env python3
+# Courtesy of Antonio Pitasi (https://github.com/pitasi)
+
+from pathlib import Path
+from time import sleep
+import json
+import shutil
+import subprocess
+import requests
+
+out_path = Path.home() / Path(".local/share/bingpaper.jpg")
+
+# Set previous background while fetching the new one.
+subprocess.run(["feh", "--bg-scale", str(out_path)])
+
+# Fetch from bing.
+def try_get(*args, **kwargs):
+    e = None
+    for _ in range(5):
+        try:
+            return requests.get(*args, **kwargs)
+        except Exception as exc:
+            e = exc
+            sleep(2000)
+    raise e
+
+def image_url():
+    u = "https://www.bing.com/HPImageArchive.aspx?idx=0&format=js&mkt=it-IT&n=1"
+    res = try_get(u)
+    data = res.json()
+    img_path = data['images'][0]['url']
+    return "https://www.bing.com" + img_path
+
+img_url = image_url()
+response = try_get(img_url, stream=True)
+
+with out_path.open('wb') as out:
+    shutil.copyfileobj(response.raw, out)
+
+# Set background
+subprocess.run(["feh", "--bg-scale", str(out_path)])

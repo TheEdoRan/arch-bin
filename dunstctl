@@ -1,0 +1,5 @@
+#!/bin/sh
+
+/usr/bin/dunstctl "$@"
+
+pkill -RTMIN+9 i3blocks

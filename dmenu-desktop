@@ -1,0 +1,37 @@
+#!/usr/bin/env python3
+import os
+import re
+import subprocess
+from pathlib import Path
+from xdg import DesktopEntry
+
+DIRS = [f"{str(Path.home())}/.local/share/applications", "/usr/share/applications"]
+FILENAMES = []
+APPS = {}
+
+def build_dict(f):
+  try:
+    f = DesktopEntry.DesktopEntry(f)
+    cmd = f.getExec()
+    if not cmd:
+      return
+    name = f.getName()
+    if name in APPS:
+      return
+    APPS[name] = cmd
+  except:
+    pass
+
+for d in DIRS:
+  for f in os.listdir(d):
+    bn = os.path.basename(f)
+    if bn in FILENAMES:
+      continue
+    FILENAMES.append(bn)
+    build_dict(f"{d}/{f}")
+
+KEYS="\n".join(sorted(list(APPS)))
+process = subprocess.Popen(f"echo '{KEYS}' | dmenu -i", stdout=subprocess.PIPE, shell=True)
+out = process.communicate()[0].strip().decode('utf-8')
+cmd = re.sub(r"%[a-zA-Z]", "", APPS[out]).strip().strip("\"").strip("'")
+subprocess.run(cmd, shell=True)

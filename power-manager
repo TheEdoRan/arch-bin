@@ -1,0 +1,29 @@
+#!/usr/bin/bash
+
+OPTS=("Suspend" "Lock" "Exit" "Shutdown" "Reboot")
+
+if [ -z "$1" ]; then
+  RES=$(echo "${OPTS[@]}" | tr ' ' '\n' | dmenu -i)
+else
+  RES=$1
+fi
+
+RES=$(echo "$RES" | awk '{print tolower($0)}')
+
+case $RES in
+  "suspend")
+    systemctl suspend
+    ;;
+  "lock")
+    loginctl lock-session
+    ;;
+  "exit")
+    i3-msg exit
+    ;;
+  "shutdown")
+    systemctl poweroff
+    ;;
+  "reboot")
+    systemctl reboot
+    ;;
+esac

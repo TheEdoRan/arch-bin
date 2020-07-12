@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+# Arch repos update and packages upgrade
+yay --sudoloop --answerupgrade All --nocleanmenu --nodiffmenu --noconfirm -Syu
+
+### Update fisher
+/usr/bin/env fish -c "fisher self-update; fisher"
+
+### Tmux update
+$HOME/.tmux/plugins/tpm/bin/update_plugins all
+/usr/bin/tmux source-file $HOME/.tmux.conf 2>/dev/null
+
+### Neovim plugins
+/usr/bin/nvim -c "PlugUpgrade | PlugUpdate | CocUpdateSync | qa!"
+
+echo "Update completed! Happy fresh hacking! :)"
+
+pkill -RTMIN+4 i3blocks
+
+sleep 3

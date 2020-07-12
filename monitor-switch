@@ -1,0 +1,45 @@
+#!/usr/bin/bash
+
+## Set desired DPI
+DEFAULT_DPI=96
+MOBILE_DPI=116
+
+CONNECTED=$(xrandr | grep -ce ' connected')
+
+switch_dpi () {
+  if [ -f $HOME/.Xresources ]; then
+    sed -i -E 's/^Xft.dpi:\s+[0-9]+$/Xft.dpi: '"$1"'/' $HOME/.Xresources
+  else
+    echo Xft.dpi "$1" > $HOME/.Xresources
+  fi
+
+  xrdb -merge $HOME/.Xresources
+
+  local XSETTINGS_DPI=$(($1 * 1024))
+
+  if [ -f $HOME/.xsettingsd ]; then
+    sed -i -E 's|^Xft/DPI\s+[0-9]+$|Xft/DPI '"$XSETTINGS_DPI"'|' $HOME/.xsettingsd
+  else
+    echo Xft.dpi "$XSETTINGS_DPI" > $HOME/.xsettingsd
+  fi
+
+  killall xsettingsd
+  xsettingsd &
+  disown $(pidof xsettingsd)
+  i3-restart
+}
+
+case $CONNECTED in
+  1)
+    switch_dpi $MOBILE_DPI
+    $HOME/.screenlayout/mobile.sh
+    ;;
+  2)
+    switch_dpi $DEFAULT_DPI
+    $HOME/.screenlayout/dockedtemp.sh
+    ;;
+  3)
+    switch_dpi $DEFAULT_DPI
+    $HOME/.screenlayout/docked.sh
+    ;;
+esac

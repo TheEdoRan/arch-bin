@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Courtesy of TheCynicalTeam (https://github.com/TheCynicalTeam/i3-swallow/blob/master/swallow)
+
+id=$(xdo id)
+xdo hide
+$("$@") > /dev/null 2>&1
+xdo show "$id"
