@@ -11,7 +11,7 @@ $HOME/.tmux/plugins/tpm/bin/update_plugins all
 /usr/bin/tmux source-file $HOME/.tmux.conf 2>/dev/null
 
 ### Neovim plugins
-/usr/bin/nvim -c "PlugUpgrade | PlugUpdate | CocUpdateSync | qa!"
+/usr/bin/nvim -c "PlugUpgrade | PlugUpdate | qa!"
 
 echo "Update completed! Happy fresh hacking! :)"
 
