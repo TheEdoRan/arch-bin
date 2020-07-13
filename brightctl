@@ -13,15 +13,18 @@ if [ -z "$1" ]; then
 fi
 
 SIGN=${1:0:1}
-STEP=$(echo $1 | sed 's/^.//')
+STEP=${1:1}
 
 # Divided by step
 MIN=$(($(brightnessctl m)/"$STEP"))
 
 case "$SIGN" in
-  "+") brightnessctl set +"$STEP"% && brightnessctl --save ;;
-  "-") brightnessctl --min-value=$MIN set "$STEP"%- && brightnessctl --save ;;
-  *) echo "Bad command format."; exit 1 ;;
+  "+") brightnessctl set +"$STEP"% &>/dev/null && brightnessctl --save &>/dev/null
+    ;;
+  "-") brightnessctl --min-value=$MIN set "$STEP"%- &>/dev/null && brightnessctl --save &>/dev/null
+    ;;
+  *) echo "Bad command format."; exit 1
+    ;;
 esac
 
 pkill -RTMIN+2 i3blocks

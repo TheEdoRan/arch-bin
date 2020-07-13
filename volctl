@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-VOL=$(pactl list sinks | grep '^[[:space:]]Volume:' | head -n $(( $SINK + 1 )) | tail -n 1 | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,')
+VOL=$(pactl list sinks | grep '^[[:space:]]Volume:' | head -n $(( SINK + 1 )) | tail -n 1 | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,')
 
 if [ -z "$1" ]; then
   echo "$VOL"
@@ -16,11 +16,11 @@ SIGN=${1:0:1}
 case "$SIGN" in
   "+")
     if [[ "$VOL" -lt 150 ]]; then
-      pactl set-sink-volume 0 $1
+      pactl set-sink-volume 0 "$1"
     fi
     ;;
   "-")
-    pactl set-sink-volume 0 $1
+    pactl set-sink-volume 0 "$1"
     ;;
 esac
 

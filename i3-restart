@@ -4,4 +4,4 @@ killall picom &>/dev/null
 i3-msg restart
 sleep 0.5
 picom &
-disown $(pidof picom)
+disown "$(pidof picom)"
