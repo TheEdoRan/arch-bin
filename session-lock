@@ -2,6 +2,6 @@
 
 dunstctl set-paused true
 
-i3lock -n -k --color 222222 --greetertext "Hey ciccio, cerchi di fregarmi?" -e --datecolor 05a184ff --timecolor 04b3adff --greetercolor f2355eff --veriftext "" --wrongtext "" --noinputtext "" --lockfailedtext ""
+i3lock -n -k --color 222222 --greetertext "Hey boomer, you tryna scam me?" -e --datecolor 05a184ff --timecolor 04b3adff --greetercolor f2355eff --veriftext "" --wrongtext "" --noinputtext "" --lockfailedtext ""
 
 dunstctl set-paused false
