@@ -32,14 +32,10 @@ switch_dpi () {
 case "$CONNECTED" in
   1)
     switch_dpi "$MOBILE_DPI"
-    "$HOME"/.screenlayout/mobile.sh
     ;;
-  2)
+  *)
     switch_dpi "$DEFAULT_DPI"
-    "$HOME"/.screenlayout/dockedone.sh
-    ;;
-  3)
-    switch_dpi "$DEFAULT_DPI"
-    "$HOME"/.screenlayout/dockedtwo.sh
     ;;
 esac
+
+"$HOME"/.screenlayout/${CONNECTED}.sh

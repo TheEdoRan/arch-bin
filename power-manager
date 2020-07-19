@@ -2,6 +2,7 @@
 
 OPTS=("Suspend" "Lock" "Exit" "Shutdown" "Reboot")
 
+# Check if we have to display power menu (user pressed power button).
 if [ -z "$1" ]; then
   RES=$(echo "${OPTS[@]}" | tr ' ' '\n' | dmenu -i)
 else
@@ -15,7 +16,7 @@ case $RES in
     systemctl suspend
     ;;
   "lock")
-    loginctl lock-session
+    light-locker-command -l
     ;;
   "exit")
     i3-msg exit
