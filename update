@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
+# Update file database and suggestions database.
+
+sudo pacman -Fy
+sudo pkgfile --update
 
 # Arch repos update and packages upgrade
 yay --sudoloop --answerupgrade All --nocleanmenu --nodiffmenu --noconfirm -Syu
 
-# Update suggestions and file database.
-sudo pkgfile --update
-sudo pacman -Fy
 
 ### Update fisher
 /usr/bin/env fish -c "fisher self-update; fisher"
