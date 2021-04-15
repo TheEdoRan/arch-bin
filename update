@@ -5,7 +5,7 @@ sudo pacman -Fy
 sudo pkgfile --update
 
 # Arch repos update and packages upgrade
-yay --sudoloop --answerupgrade All --nocleanmenu --nodiffmenu --noconfirm -Syu
+paru --sudoloop -noconfirm -Syu
 
 ### Update fisher
 /usr/bin/env fish -c "fisher update"
