@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-VOL=$(pactl list sinks | grep '^[[:space:]]Volume:' | head -n $(( SINK + 1 )) | tail -n 1 | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,')
+VOL=$(pamixer --get-volume)
 
 if [ -z "$1" ]; then
   echo "$VOL"
@@ -8,20 +8,21 @@ if [ -z "$1" ]; then
 fi
 
 if [ "$1" == "toggle" ]; then
-  pactl set-sink-mute 0 toggle
+  pamixer --toggle-mute
+else
+  SIGN=${1:0:1}
+  STEP="${1#?}"
+
+  case "$SIGN" in
+    "+")
+      if [[ "$VOL" -lt 150 ]]; then
+        pamixer --increase "$STEP" --allow-boost
+      fi
+      ;;
+    "-")
+        pamixer --decrease "$STEP" --allow-boost
+      ;;
+  esac
 fi
-
-SIGN=${1:0:1}
-
-case "$SIGN" in
-  "+")
-    if [[ "$VOL" -lt 150 ]]; then
-      pactl set-sink-volume 0 "$1"
-    fi
-    ;;
-  "-")
-    pactl set-sink-volume 0 "$1"
-    ;;
-esac
 
 pkill -RTMIN+1 i3blocks
