@@ -27,7 +27,6 @@ switch_dpi () {
   xsettingsd &
   disown "$(pidof xsettingsd)"
   i3-restart
-  scroll-speed
 }
 
 case "$CONNECTED" in

@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-CONNECTED_SCREENS=$(xrandr | grep -c " connected")
-
-if [ "$CONNECTED_SCREENS" -gt 1 ]; then
-  imwheel -b 45 &>/dev/null
-else
-  killall imwheel &>/dev/null
-fi
