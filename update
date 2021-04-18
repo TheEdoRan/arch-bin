@@ -5,13 +5,17 @@ sudo pacman -Fy
 sudo pkgfile --update
 
 # Arch repos update and packages upgrade
-paru --sudoloop -noconfirm -Syu
+paru --sudoloop --noconfirm -Syu
 
 ### Update fisher
 /usr/bin/env fish -c "fisher update"
 
 ### Neovim plugins
 /usr/bin/nvim -c "PlugUpgrade | PlugUpdate | qa!"
+
+sleep 1
+
+pkill -RTMIN+4 i3blocks
 
 echo "Update completed! Happy fresh hacking! :)"
 
