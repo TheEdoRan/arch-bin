@@ -1,3 +1,0 @@
-#!/bin/sh
-
-/usr/bin/dmenu -nb '#191919' -nf '#3bf5e7' -sb '#3bf5e7' -sf '#191919' -fn 'Cantarell:regular:size=13' "$@"
